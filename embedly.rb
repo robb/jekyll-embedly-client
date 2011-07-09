@@ -52,10 +52,16 @@ module Jekyll
     end
     
     def compose(json_rep)
-      html     = json_rep['html']
       type     = json_rep['type']
       provider = json_rep['provider_name'].downcase
-      
+
+      if type == 'photo'
+        url, width, height = json_rep['url'], json_rep['width'], json_rep['height']
+        html  = "<img src='#{url}' width='#{width}' height='#{height}' />"
+      else
+        html = json_rep['html']
+      end
+
       "<div class=\"embed #{type} #{provider}\">#{html}</div>"
     end
     
