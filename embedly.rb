@@ -9,7 +9,7 @@ module Jekyll
     @@EMBEDLY_PARAMETERS = ['maxwidth', 'maxheight', 'format', 'callback',
                             'wmode', 'allowscripts', 'nostyle', 'autoplay',
                             'videosrc', 'words', 'chars', 'width', 'height']
-    
+
     def initialize(tag_name, text, tokens)
       super
       @text = text.strip
@@ -18,7 +18,7 @@ module Jekyll
     def render(context)
       @config  = context.registers[:site].config['embedly']
       @api_key = @config['api_key']
-      
+
       if @api_key.nil?
         raise "You must provide embed.ly api key."
       end
@@ -45,12 +45,12 @@ module Jekyll
       encoded_url = CGI::escape url
       embedly_url = URI.parse "http://api.embed.ly/1/oembed?key=#{@api_key}" +
                               "&url=#{encoded_url}#{parameters}"
-      
+
       json_rep = JSON.parse resolve(embedly_url)
 
       compose json_rep
     end
-    
+
     def compose(json_rep)
       type     = json_rep['type']
       provider = json_rep['provider_name'].downcase
@@ -64,7 +64,7 @@ module Jekyll
 
       "<div class=\"embed #{type} #{provider}\">#{html}</div>"
     end
-    
+
     def resolve(uri)
       response = Net::HTTP.get_response(uri)
 
