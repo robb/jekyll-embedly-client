@@ -50,7 +50,7 @@ embeds type, provider as well as the generic `embed`.
 
 E.g.
 
-    `{% embedly  http://soundcloud.com/mightyoaksmusic/rainier %}`
+    {% embedly  http://soundcloud.com/mightyoaksmusic/rainier %}
     
 will result in
 
