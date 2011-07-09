@@ -30,7 +30,7 @@ You can further customize your embeds adding host-specific parameters.
       api_key: abcdefg123456780cafebabe101cat44
 
       soundcloud:
-        color: 0066FF # SoundCloud specific paramter for colorful players
+        color: 0066FF # SoundCloud specific parameter for colorful players
         width: 500px
 
       vimeo:
