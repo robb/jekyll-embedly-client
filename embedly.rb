@@ -12,7 +12,16 @@ module Jekyll
 
     def initialize(tag_name, text, tokens)
       super
-      @text = text.strip
+
+      tokens      = text.split /\,\s/
+      @url        = tokens[0]
+      @parameters = {}
+
+      tokens[1..-1].each do |arg|
+        key, value = arg.split /:/
+        value ||= "1"
+        @parameters[key.strip] = value.strip
+      end
     end
 
     def render(context)
@@ -23,28 +32,28 @@ module Jekyll
         raise "You must provide embed.ly api key."
       end
 
-      embed @text
+      embed @url
     end
 
     private
 
     def embed(url)
-      provider = Domainatrix.parse(url).domain
+      provider     = Domainatrix.parse(url).domain
+      param_string = ""
+      params       = (@config[provider] or {}).merge @parameters
 
-      parameters = ""
-      if @config[provider]
-        @config[provider].each do |key, value|
-          if @@EMBEDLY_PARAMETERS.member? key
-            parameters << "&#{key}=#{value}"
-          else
-            url << (url.match(/\?/) ? "&" : "?") << "#{key}=#{value}"
-          end
+      params.each do |key, value|
+        if @@EMBEDLY_PARAMETERS.member? key
+          value = CGI::escape value.to_s
+          param_string << "&#{key}=#{value}"
+        else
+          url << (url.match(/\?/) ? "&" : "?") << "#{key}=#{value}"
         end
       end
 
       encoded_url = CGI::escape url
       embedly_url = URI.parse "http://api.embed.ly/1/oembed?key=#{@api_key}" +
-                              "&url=#{encoded_url}#{parameters}"
+                              "&url=#{encoded_url}#{param_string}"
 
       json_rep = JSON.parse resolve(embedly_url)
 

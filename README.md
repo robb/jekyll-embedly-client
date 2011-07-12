@@ -36,6 +36,11 @@ You can further customize your embeds adding host-specific parameters.
       vimeo:
         width: 500px
 
+You can also pass along parameters to individual embeds, e.g.
+
+    {% embedly  http://soundcloud.com/mightyoaksmusic/rainier, color: 00FFFF %}
+    # Linebreaks are currently not supported :-/
+
 For a list of supported parameters, please have a look at
 [embed.ly’s documentation][docs] as well as the documentation for the oEmbed
 implementation of the specific hosts.
