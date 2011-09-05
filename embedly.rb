@@ -65,8 +65,11 @@ module Jekyll
       provider = json_rep['provider_name'].downcase
 
       if type == 'photo'
-        url, width, height = json_rep['url'], json_rep['width'], json_rep['height']
-        html  = "<img src='#{url}' width='#{width}' height='#{height}' />"
+        url    = json_rep['url']
+        width  = json_rep['width']
+        height = json_rep['height']
+        desc   = CGI::escapeHTML json_rep['description']
+        html   = "<img src=\"#{url}\" alt=\"#{desc}\" width=\"#{width}\" height=\"#{height}\" />"
       else
         html = json_rep['html']
       end
