@@ -9,10 +9,11 @@ jekyll.
 2. Download the `embedly.rb` file and place it in the `_plugins/` inside your
    Jekyll project directory.
 3. Go to the embed.ly site, register an account and get your API key.
-4. Edit your `_config.yml` as described below.
-5. Make use of the new `embedly`-Liquid tag somewhere on your site.  
+4. Add your site address to the referrer section e.g. 'localhost.com*' or 'www.mywebsite.com*'
+5. Edit your `_config.yml` as described below.
+6. Make use of the new `embedly`-Liquid tag somewhere on your site.  
    E.g. `{% embedly  http://soundcloud.com/mightyoaksmusic/rainier %}`
-6. Compile your site.
+7. Compile your site.
 
 Please not that github-pages does not allow the use of plugins, if you want
 to make use of this plugin, you have to compile your site yourself.
