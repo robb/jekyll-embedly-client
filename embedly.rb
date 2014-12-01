@@ -3,6 +3,7 @@ require 'net/https'
 require 'uri'
 require 'json'
 require 'domainatrix'
+require 'compose_url'
 
 module Jekyll
   class Embedly < Liquid::Tag
@@ -34,26 +35,16 @@ module Jekyll
     private
 
     def embed(url)
-      provider     = Domainatrix.parse(url).domain
-      param_string = ""
-      params       = (@config[provider] or {}).merge @parameters
+      params = (@config[Domainatrix.parse(url).domain] || {}).merge @parameters
 
-      params.each do |key, value|
-        if @@EMBEDLY_PARAMETERS.member? key
-          value = CGI::escape value.to_s
-          param_string << "&#{key}=#{value}"
-        else
-          url << (url.match(/\?/) ? "&" : "?") << "#{key}=#{value}"
-        end
+      embedly_url = ComposeURL.new("http://api.embed.ly/1/oembed")
+      embedly_url.add_param('key', @api_key)
+      embedly_url.add_param('url', url)
+      params.each do |k, v|
+        embedly_url.add_param(k, v)
       end
 
-      encoded_url = CGI::escape url
-      embedly_url = URI.parse "http://api.embed.ly/1/oembed?key=#{@api_key}" +
-                              "&url=#{encoded_url}#{param_string}"
-
-      json_rep = JSON.parse resolve(embedly_url)
-
-      compose json_rep
+      compose JSON.parse resolve embedly_url.to_s
     end
 
     def compose(json_rep)
@@ -73,8 +64,8 @@ module Jekyll
       "<div class=\"embed #{type} #{provider}\">#{html}</div>"
     end
 
-    def resolve(uri)
-      response = Net::HTTP.get_response(uri)
+    def resolve(url)
+      response = Net::HTTP.get_response(URI(url))
 
       unless response['location'].nil? and response['Location'].nil?
         resolve URI.parse(response['location']) or
