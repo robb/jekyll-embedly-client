@@ -6,10 +6,6 @@ require 'domainatrix'
 
 module Jekyll
   class Embedly < Liquid::Tag
-    @@EMBEDLY_PARAMETERS = ['maxwidth', 'maxheight', 'format', 'callback',
-                            'wmode', 'allowscripts', 'nostyle', 'autoplay',
-                            'videosrc', 'words', 'chars', 'width', 'height']
-
     def initialize(tag_name, text, tokens)
       super
 
