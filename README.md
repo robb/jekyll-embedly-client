@@ -5,13 +5,13 @@ jekyll.
 
 ## How to install
 
-1. Make sure you have the _json_ and _domainatrix_ gems installed.
+1. Make sure you have the _json_, _domainatrix_ and _compose_url_ gems installed.
 2. Download the `embedly.rb` file and place it in the `_plugins/` inside your
    Jekyll project directory.
 3. Go to the embed.ly site, register an account and get your API key.
 4. Add your site address to the referrer section e.g. 'localhost.com*' or 'www.mywebsite.com*'
 5. Edit your `_config.yml` as described below.
-6. Make use of the new `embedly`-Liquid tag somewhere on your site.  
+6. Make use of the new `embedly`-Liquid tag somewhere on your site.
    E.g. `{% embedly  http://soundcloud.com/mightyoaksmusic/rainier %}`
 7. Compile your site.
 
@@ -31,11 +31,11 @@ You can further customize your embeds adding host-specific parameters.
       api_key: abcdefg123456780cafebabe101cat44
 
       soundcloud:
-        color: 0066FF # SoundCloud specific parameter for colorful players
         width: 500px
 
       vimeo:
         width: 500px
+        vimeo_color: FF0000
 
 You can also pass along parameters to individual embeds, e.g.
 
@@ -57,7 +57,7 @@ embeds type, provider as well as the generic `embed`.
 E.g.
 
     {% embedly  http://soundcloud.com/mightyoaksmusic/rainier %}
-    
+
 will result in
 
     <div class="embed rich soundcloud">
